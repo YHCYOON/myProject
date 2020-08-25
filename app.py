@@ -19,7 +19,7 @@ def picture_Regist_Page():
 @app.route('/pictureRegist', methods=['POST'])
 def picture_Regist():
     # 클라이언트가 give로 준 값들 가져오기
-    imgURL_receive = request.form['imgURL_give']
+    imgurl_receive = request.form['imgURL_give']
     category_receive = request.form['category_give']
     id_receive = request.form['userID_give']
     pw_receive = request.form['userPW_give']
@@ -29,7 +29,7 @@ def picture_Regist():
 
     # DB에 삽입할 pictureInfo 만들기
     pictureInfo = {
-        'imgURL': imgURL_receive,
+        'imgURL': imgurl_receive,
         'category': category_receive,
         'userID': id_receive,
         'userPW': pw_receive,

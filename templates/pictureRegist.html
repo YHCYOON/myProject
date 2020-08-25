@@ -179,7 +179,7 @@
 
         function picture_Regist(){
             // 입력한 카테고리,아이디,비밀번호,닉네임,제목,작품설명 값을 가져옵니다
-            let imgURL = $("#imgURL").val();
+            let imgURL = $("#inputURL").val();
             let category = $("#category").val();
             let userID = $("#userID").val();
             let userPW = $("#userPW").val();
@@ -201,7 +201,7 @@
                 success: function(response){
                     if(response["result"] == "success"){
                         alert(response["msg"]);
-                        window.location.reload();
+
                     }
                 }
             })
