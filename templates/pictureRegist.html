@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <!--<link href="{{url_for('static', filename='pictureRegist.css')}}" rel="stylesheet" id="login-css">#}-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style>
+        .contentWrap {
+            height: 1000px;
+            width: 1190px;
+            margin: auto;
+        }
+
+        .navBar {
+            background-color: #66CED3;
+            height: 120px;
+            width: 1190px;
+            margin: 0px auto;
+            display: flex;
+        }
+
+        .navBarLogoWrap {
+            height: 120px;
+            width: 260px;
+        }
+
+        .navBarLogo a {
+            text-decoration: none;
+            color: white;
+            font-weight: 900;
+            font-size: 55px;
+        }
+
+        .navBarLogo {
+            margin: 23.18px 23.65px 23.18px 23.65px;
+        }
+
+        .navBarMenuWrap {
+            height: 120px;
+            width: 960px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .navBarMenu {
+            display: flex;
+            margin: auto;
+        }
+
+        .navBarMenu a {
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .pictures, .ranking, .pictureRegist, .myPictures, .favorite {
+            margin: 30px 55px 0 55px;
+        }
+
+        .pictureRegistWrap {
+            height: 830px;
+            width: 1190px;
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .pictureRegistLeft {
+            height: 830px;
+            width: 800px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .pictureRegistRight {
+            height: 830px;
+            width: 365px;
+            display: inline-block;
+        }
+
+        .showImage {
+            height: 760px;
+            width: 760px;
+            background-color: #BEC2C2;
+            margin-left: 28px;
+        }
+        img{
+            height:760px;
+            width: 760px;
+        }
+
+        .urlRegist {
+            height: 45px;
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .urlLeftArea {
+            width: 40px;
+        }
+
+        .urlMiddleArea {
+            width: 10px;
+        }
+
+        .urlRightArea {
+            width: 20px;
+        }
+
+        .form-control {
+            margin-right: 7px;
+        }
+
+        .btn btn-outline-info {
+            height: 45px;
+        }
+
+        .pictureCategory  {
+            height: 45px;
+            display: flex;
+        }
+
+        .pictureTitleMiddleArea, .pictureIdMiddleArea, .picturePwMiddleArea, .pictureNicknameMiddleArea  {
+            width: 12px;
+        }
+
+        .custom-select {
+            height: 45px;
+            width: 260px;
+            margin-left: 10px;
+        }
+
+        .input-group-text {
+            background-color: #66CED3;
+            color: white;
+            font-weight: 700;
+        }
+
+        .pictureId, .picturePw, .pictureNickname, .pictureTitle {
+            margin-top: 10px;
+        }
+
+        .pictureComment {
+            height: 45px;
+            width: 360px;
+            margin-top: 13px;
+        }
+
+        .pictureCommentMiddleArea {
+            height: 13px;
+        }
+
+        .pictureSave {
+            width: 360px;
+        }
+
+        .pictureSaveTopArea {
+            height: 470px;
+        }
+    </style>
+    <script>
+        function ShowImg(){
+            let image = $("#inputURL").val();
+            $("#urlImg").attr("src", image);
+        }
+
+        function picture_Regist(){
+            // 입력한 카테고리,아이디,비밀번호,닉네임,제목,작품설명 값을 가져옵니다
+            let imgURL = $("#imgURL").val();
+            let category = $("#category").val();
+            let userID = $("#userID").val();
+            let userPW = $("#userPW").val();
+            let userNickname = $("#userNickname").val();
+            let title = $("#title").val();
+            let comment = $("#comment").val();
+
+
+            // 값들을 하나라도 입력하지 않았을 때 alert를 띄웁니다
+            if (imgURL == "" || category == "카테고리를 선택하세요" || userID == "" || userPW == "" || userNickname == "" || title == "" || comment == ""){
+              alert("입력하지 않은 항목이 있어요!")
+            }
+
+            // POST /pictureRegist에 저장을 요청합니다
+            $.ajax({
+                type: "POST",
+                url: "/pictureRegist",
+                data: {imgURL_give: imgURL, category_give: category, userID_give: userID, userPW_give: userPW, userNickname_give: userNickname, title_give: title, comment_give: comment},
+                success: function(response){
+                    if(response["result"] == "success"){
+                        alert(response["msg"]);
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="contentWrap">
+    <nav class="navBar">
+        <div class="navBarLogoWrap">
+            <div class="navBarLogo">
+                <a href="">DraWell</a>
+            </div>
+        </div>
+        <div class="navBarMenuWrap">
+            <div class="navBarMenu">
+                <div class="pictures">
+                    <a href="">작품</a>
+                </div>
+                <div class="ranking">
+                    <a href="">랭킹</a>
+                </div>
+                <div class="pictureRegist">
+                    <a href="">그림등록</a>
+                </div>
+                <div class="myPictures">
+                    <a href="">나의그림</a>
+                </div>
+                <div class="favorite">
+                    <a href="">Favorite</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="pictureRegistWrap">
+        <div class="pictureRegistLeft">
+            <div class="showImage">
+                <img class="urlImg" id="urlImg">
+            </div>
+            <div class="urlRegist">
+                <div class="urlLeftArea"></div>
+                <input type="text" id="inputURL" class="form-control" placeholder="URL을 입력하세요">
+                <div class="urlMiddleArea"></div>
+                <button onclick="ShowImg()" type="button" class="btn btn-outline-info">이미지 확인</button>
+                <div class="urlRightArea"></div>
+            </div>
+        </div>
+        <div class="pictureRegistRight">
+            <div class="pictureCategory">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+                </div>
+                <select id="category" class="custom-select" >
+                    <option selected>카테고리를 선택하세요</option>
+                    <option value="character">캐릭터 일러스트</option>
+                    <option value="background">배경 일러스트</option>
+                    <option value="sketch">스케치</option>
+                </select>
+            </div>
+            <div class="pictureId">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">아이디</label>
+                    <div class="pictureIdMiddleArea"></div>
+                    <input type="text" id="userID" class="form-control" aria-label="Text input with segmented dropdown button">
+                </div>
+            </div>
+            <div class="picturePw">
+                <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02">비밀번호</label>
+                    <div class="picturePwMiddleArea"></div>
+                    <input type="password" id="userPW" class="form-control" aria-label="Text input with segmented dropdown button">
+                </div>
+            </div>
+            <div class="pictureNickname">
+                <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02">닉네임</label>
+                    <div class="pictureNicknameMiddleArea"></div>
+                    <input type="text" id="userNickname" class="form-control" aria-label="Text input with segmented dropdown button">
+                </div>
+            </div>
+            <div class="pictureTitle">
+                <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02">제목</label>
+                    <div class="pictureTitleMiddleArea"></div>
+                    <input type="text" id="title" class="form-control"  aria-label="Text input with segmented dropdown button">
+                </div>
+            </div>
+            <div class="pictureComment">
+                <label class="input-group-text" for="inputGroupSelect01">작품설명</label>
+                <div class="pictureCommentMiddleArea"></div>
+
+                <textarea id="comment" class="form-control" rows="18"></textarea>
+
+            </div>
+            <div class="pictureSave">
+                <div class="pictureSaveTopArea"></div>
+                <button onclick="picture_Regist()" type="button" class="btn btn-info btn-lg btn-block">저장</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

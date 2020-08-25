@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <!--<link href="{{url_for('static', filename='pictureRank.css')}}" rel="stylesheet" id="login-css">#}-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .contentWrap {
+            height: 1000px;
+            width: 1190px;
+            margin: auto;
+        }
+
+        .navBar {
+            background-color: #66CED3;
+            height: 120px;
+            width: 1190px;
+            margin: 0px auto;
+            display: flex;
+        }
+
+        .navBarLogoWrap {
+            height: 120px;
+            width: 260px;
+        }
+
+        .navBarLogo a {
+            text-decoration: none;
+            color: white;
+            font-weight: 900;
+            font-size: 55px;
+        }
+
+        .navBarLogo {
+            margin: 23.18px 23.65px 23.18px 23.65px;
+        }
+
+        .navBarMenuWrap {
+            height: 120px;
+            width: 960px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .navBarMenu {
+            display: flex;
+            margin: auto;
+        }
+
+        .navBarMenu a {
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .pictures, .ranking, .pictureRegist, .myPictures, .favorite {
+            margin: 30px 55px 0 55px;
+        }
+
+        .pictureRankWrap {
+            height: 830px;
+            width: 1190px;
+            margin-top: 10px;
+        }
+
+        .rankCategoryWrap {
+            display: flex;
+            margin-left: 289.83px;
+        }
+
+        img {
+            height: 80px;
+            width: 80px;
+        }
+
+        .rankCategory {
+            margin: 15px 0 10px 0;
+        }
+
+        .selectedCategory {
+            font-weight: 700;
+            font-size: 40px;
+            text-align: center;
+            color: #66CED3;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+
+        .rankWrapTop {
+            height: 385px;
+            display: flex;
+        }
+
+        .pictureCard_1 {
+            height: 380px;
+            width: 380px;
+            background-color: #BEC2C2;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .pictureCard_2, .pictureCard_3 {
+            height: 380px;
+            width: 380px;
+            background-color: #BEC2C2;
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .rankWrapMiddle {
+            height: 80px;
+            display: flex;
+            margin: 0 5px 0 5px;
+        }
+
+        .rank1content {
+            width: 380px;
+            background-color: bisque;
+            display: flex;
+        }
+
+        .rank1contentRight {
+            height: 80px;
+            width: 300px;
+            background-color: blue;
+            display: inline-block;
+        }
+
+        .rank1title {
+            height: 40px;
+            width: 300px;
+
+        }
+
+        .rank1bottom {
+            height: 40px;
+            width: 300px;
+            display: flex;
+        }
+
+        .rank1nickname {
+            width: 170px;
+            display: inline-block;
+        }
+
+        .rank1like {
+            width: 130px;
+            display: inline-block;
+        }
+
+        .rank2content, .rank3content {
+            width: 380px;
+            margin-left: 20px;
+            background-color: bisque;
+        }
+
+        .rankWrapBottom {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<div class="contentWrap">
+    <nav class="navBar">
+        <div class="navBarLogoWrap">
+            <div class="navBarLogo">
+                <a href="">DraWell</a>
+            </div>
+        </div>
+        <div class="navBarMenuWrap">
+            <div class="navBarMenu">
+                <div class="pictures">
+                    <a href="">작품</a>
+                </div>
+                <div class="ranking">
+                    <a href="">랭킹</a>
+                </div>
+                <div class="pictureRegist">
+                    <a href="">그림등록</a>
+                </div>
+                <div class="myPictures">
+                    <a href="">나의그림</a>
+                </div>
+                <div class="favorite">
+                    <a href="">Favorite</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="pictureRankWrap">
+        <div class="rankCategoryWrap">
+            <img src="../static/Rank.bmp" alt="rank">
+            <div class="rankCategory">
+                <button type="button" class="btn btn-outline-info rankAll">모든 항목</button>
+                <button type="button" class="btn btn-outline-info rankCharacter">캐릭터 일러스트</button>
+                <button type="button" class="btn btn-outline-info rankBackground">배경 일러스트</button>
+                <button type="button" class="btn btn-outline-info rankSketch">스케치</button>
+            </div>
+            <img src="../static/Rank.bmp" alt="rank">
+        </div>
+        <div class="selectedCategory">모든 항목</div>
+        <div class="rankWrapTop">
+            <div class="pictureCard_1"></div>
+            <div class="pictureCard_2"></div>
+            <div class="pictureCard_3"></div>
+        </div>
+        <div class="rankWrapMiddle">
+            <div class="rank1content">
+                <img src="../static/gold.bmp" alt="gold">
+                <div class="rank1contentRight">
+                    <div class="rank1title">
+
+                    </div>
+                    <div class="rank1bottom">
+                        <div class="rank1nickname"></div>
+                        <div class="rank1like"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="rank2content">
+                <img src="../static/silver.bmp" alt="silver">
+            </div>
+            <div class="rank3content">
+                <img src="../static/bronze.bmp" alt="bronze">
+            </div>
+        </div>
+        <div class="rankWrapBottom">
+
+            <div class="pictureCard_4"></div>
+            <div class="pictureCard_5"></div>
+            <div class="pictureCard_6"></div>
+            <div class="pictureCard_7"></div>
+            <div class="pictureCard_8"></div>
+            <div class="pictureCard_9"></div>
+            <div class="pictureCard_10"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
