@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title</title>
+    <title>DraWell 그림등록</title>
     <!--<link href="{{url_for('static', filename='pictureRegist.css')}}" rel="stylesheet" id="login-css">#}-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -172,8 +172,18 @@
         }
     </style>
     <script>
+        //입력한 URL 에 따른 이미지가 출력되었나 확인
+        let imageError = true;
+
+        $(window).on('load', function () {
+            $("#urlImg").on('error', function () {
+                imageError = true;
+            })
+        })
+
         function ShowImg(){
             let image = $("#inputURL").val();
+            imageError = false;
             $("#urlImg").attr("src", image);
         }
 
@@ -189,8 +199,44 @@
 
 
             // 값들을 하나라도 입력하지 않았을 때 alert를 띄웁니다
+
+            /*
             if (imgURL == "" || category == "카테고리를 선택하세요" || userID == "" || userPW == "" || userNickname == "" || title == "" || comment == ""){
               alert("입력하지 않은 항목이 있어요!")
+            }
+            */
+            if (imgURL == "") {
+                    alert("URL을 입력해주세요");
+                    $("#imgURL").focus();
+                    return;
+                } else if (category == "카테고리를 선택하세요") {
+                    alert("카테고리를 선택해주세요");
+                    $("#category").focus();
+                    return;
+                } else if (userID == "") {
+                    alert("아이디를 입력해주세요");
+                    $("#userID").focus();
+                    return;
+                } else if (userPW == "") {
+                    alert("비밀번호를 입력해주세요");
+                    $("#userPW").focus();
+                    return;
+                } else if (userNickname == "") {
+                    alert("닉네임을 입력해주세요");
+                    $("#userNickname").focus();
+                    return;
+                } else if (title == "") {
+                    alert("제목을 입력해주세요");
+                    $("#title").focus();
+                    return;
+                } else if (comment == "") {
+                    alert("작품설명을 입력해주세요");
+                    $("#comment").focus();
+                    return;
+                } else if(imageError) {
+                        alert("올바른 이미지 URL을 입력해주세요");
+                        $("#comment").focus();
+                        return;
             }
 
             // POST /pictureRegist에 저장을 요청합니다
@@ -201,11 +247,13 @@
                 success: function(response){
                     if(response["result"] == "success"){
                         alert(response["msg"]);
+                        window.location.reload();
 
                     }
                 }
             })
         }
+
     </script>
 </head>
 <body>

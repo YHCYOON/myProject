@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DroWell</title>
+    <title>DraWell</title>
 
     <!--<link href="{{url_for('static', filename='index.css')}}" rel="stylesheet" id="login-css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         .contentWrap {
@@ -81,33 +78,181 @@
         }
 
         .picturesCategoryBtnWrap {
-            width: 893.04px;
+            width: 743.04px;
         }
 
-        .btn btn-outline-info a {
+        .btn btn-outline-info {
             margin: 30px 55px 0 55px;
+        }
+
+        .picturesCategorySearchWrap {
+            display: flex;
+            margin-top: -20px;
+            margin-left: 56px;
+        }
+
+        .searchCategoryButton {
+            margin-right: 7px;
         }
 
         .pictureCardsWrap {
             height: 980px;
             width: 1190px;
+
         }
-
-
 
         .pictureCard {
             height: 238px;
             width: 238px;
+        }
+
+        /* 마우스Hover */
+
+        a {
             display: inline-block;
-            margin-right: -4px;
-            margin-bottom: -4px;
+            margin: 0 -4.8px -5px 0;
+        }
+
+        a:hover .hoveruserNickname {
+            top: 62%;
+        }
+
+        a:hover .hoverTitle {
+            bottom: 52%;
+        }
+
+        .screen {
+            width: 238px;
+            position: relative;
             overflow: hidden;
+            margin-bottom: -6px;
+        }
 
+        .hoverTitle {
+            position: absolute;
+            bottom: 150%;
+            left: 15px;
+            z-index: 2;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 400;
+            transition: all .60s;
+        }
 
+        .hoveruserNickname {
+            position: absolute;
+            top: 150%;
+            left: 15px;
+            z-index: 2;
+            color: azure;
+            font-size: 12px;
+            transition: all .60s;
+
+        }
+
+        .screen::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 238px;
+            height: 238px;
+            background: rgba(0, 0, 0, .6);
+            z-index: 1;
+            opacity: 0;
+            transition: all .35s;
+        }
+
+        a:hover .screen::after {
+            opacity: 0.7;
         }
 
     </style>
     <script>
+        $(window).on('load', function () {
+            show_Pictures();
+            $("button[name = 'showCategory']").on('click', function () {
+                let imageCategory = $(this).val();
+                console.log(imageCategory);
+                show_Pictures(imageCategory);
+            });
+        });
+
+        function makePictureCard(imgURL, userNickname, title) {
+            let tempHtml = `
+                            <a class="picture" href="">
+                                <div class="screen">
+                                    <div class="hoverTitle">${title}</div>
+                                    <div class="hoveruserNickname">${userNickname}</div>
+                                    <img id="pictureCard" class="pictureCard" src="${imgURL}">
+                                </div>
+                            </a>`
+            $("#pictureCardsWrap").append(tempHtml);
+        }
+
+        function show_Pictures(category = 'all') {
+            // 1. 그림 데이터를 서버에 요청하기
+            $('#pictureCardsWrap').empty();
+            $.ajax({
+                type: "GET",
+                url: `/images/${category}`,
+                data: {},
+                success: function (response) {
+                    // 2. 요청 성공 여부 확인하기
+                    if (response["result"] == "success") {
+                        let pictureInfos = response["pictureInfos"];
+                        // 3. 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
+                        for (let i = 0; i < pictureInfos.length; i++) {
+                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"]);
+                        }
+                    } else {
+                        alert("이미지를 불러오지 못했습니다");
+                    }
+                }
+            })
+        }
+
+
+
+        function search_Content() {
+            $('#pictureCardsWrap').empty();
+            // 1. 검색한 카테고리와 내용값을 가져옴
+            let searchCategory = $("#searchCategory").val();
+            let searchContent = $("#searchContent").val();
+
+            // 2. 검색할 내용을 입력하지 않았을때, 내용이 두글자 이하일때 alert 띄움
+            if (searchContent == "") {
+                alert("내용을 입력해주세요");
+                $("#searchContent").focus();
+                return;
+            } else if (searchContent.length < 2) {
+                alert("두글자 이상 입력해주세요");
+                $("#searchContent").focus();
+                return;
+            }
+
+
+
+            $.ajax({
+                type: "GET",
+                url: `/images/${searchCategory}/${searchContent}`,
+                data: {},
+                success: function (response) {
+                    // 2. 요청 성공 여부 확인하기
+                    if (response["result"] == "success") {
+                        let pictureInfos = response["pictureInfos"];
+                        // 3. 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
+                        for (let i = 0; i < pictureInfos.length; i++) {
+                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"]);
+                        }
+                    } else {
+                        alert("이미지를 불러오지 못했습니다");
+                    }
+                }
+            })
+
+        }
 
     </script>
 </head>
@@ -141,30 +286,37 @@
     </nav>
     <div class="picturesCategory">
         <div class="picturesCategoryBtnWrap">
-            <button type="button" class="btn btn-outline-info all">전체보기</button>
-            <button type="button" class="btn btn-outline-info character">캐릭터 일러스트</button>
-            <button type="button" class="btn btn-outline-info background">배경 일러스트</button>
-            <button type="button" class="btn btn-outline-info sketch">스케치</button>
+            <button type="button" name="showCategory" id="showAll" class="btn btn-outline-info all" value="all">전체보기
+            </button>
+            <button type="button" name="showCategory" id="showChar" class="btn btn-outline-info character"
+                    value="character">캐릭터 일러스트
+            </button>
+            <button type="button" name="showCategory" id="showBackground" class="btn btn-outline-info background"
+                    value="background">배경 일러스트
+            </button>
+            <button type="button" name="showCategory" id="showSketch" class="btn btn-outline-info sketch"
+                    value="sketch">스케치
+            </button>
         </div>
         <div class="picturesCategorySearchWrap">
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <div class="searchCategoryButton">
+                    <select id="searchCategory" class="custom-select">
+                        <option id="searchAll" value="searchAll">전체</option>
+                        <option id="searchTitle" value="searchTitle">제목</option>
+                        <option id="searchNickname" value="searchNickname">닉네임</option>
+                        <option id="searchComment" value="searchComment">작품설명</option>
+                    </select>
+                </div>
+                <input id="searchContent" class="form-control mr-sm-2" type="search" aria-label="Search">
+                <button id="btnSearch" type="button" name='search' class="btn btn-outline-success my-2 my-sm-0"
+                        onclick="search_Content()">검색
+                </button>
             </form>
         </div>
     </div>
-    <div class="pictureCardsWrap">
-
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-        <img class="pictureCard" src="https://cdnb.artstation.com/p/assets/images/images/029/672/239/large/ibrahem-swaid-rkf-s4m-03.jpg?1598298614">
-
-
+    <div class="pictureCardsWrap" id="pictureCardsWrap">
+        <!-- <img class="pictureCard" src=""> -->
     </div>
 
 

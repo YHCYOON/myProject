@@ -11,6 +11,34 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/images/<category>', methods=['GET'])
+def show_Pictures(category):
+    # 1. DB에서 리뷰 정보 모두 가져오기
+    if category == 'all':
+        pictureInfos = list(db.pictureInfos.find({}, {'_id': 0}))
+    else:
+        pictureInfos = list(db.pictureInfos.find({'category': category}, {'_id': 0}))
+
+    # 2. 성공 여부 & 리뷰 목록 반환하기
+    return jsonify({'result': 'success', 'pictureInfos': pictureInfos})
+
+
+@app.route('/images/<searchCategory>/<searchContent>', methods=['GET'])
+def search_Content(searchCategory, searchContent):
+    # 1. DB에서 리뷰 정보 모두 가져오기
+    if searchCategory == 'searchTitle':
+        pictureInfos = list(db.pictureInfos.find({'title': {'$regex':searchContent, '$options': 'i'}}, {'_id': 0}))
+    elif searchCategory == 'searchNickname':
+        pictureInfos = list(db.pictureInfos.find({'userNickname': {'$regex':searchContent, '$options': 'i'}}, {'_id': 0}))
+    elif searchCategory == 'searchComment':
+        pictureInfos = list(db.pictureInfos.find({'comment': {'$regex':searchContent, '$options': 'i'}}, {'_id': 0}))
+    else:
+        pictureInfos = list(db.pictureInfos.find({'$or':[{'title': {'$regex':searchContent, '$options': 'i'}},{'userNickname': {'$regex':searchContent, '$options': 'i'}},{'comment': {'$regex':searchContent, '$options': 'i'}}]}, {'_id': 0}))
+
+    # 2. 성공 여부 & 리뷰 목록 반환하기
+    return jsonify({'result': 'success', 'pictureInfos': pictureInfos})
+
+
 @app.route('/pictureRegist', methods=['GET'])
 def picture_Regist_Page():
     return render_template('pictureRegist.html')
