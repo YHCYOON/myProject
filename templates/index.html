@@ -17,6 +17,7 @@
             crossorigin="anonymous"></script>
 
     <style>
+        /* Nav */
         .contentWrap {
             height: 1300px;
             width: 1190px;
@@ -71,6 +72,7 @@
             margin: 30px 55px 0 55px;
         }
 
+        /* 카테고리 */
         .picturesCategory {
             height: 60px;
             display: flex;
@@ -84,7 +86,7 @@
         .btn btn-outline-info {
             margin: 30px 55px 0 55px;
         }
-
+        /* 검색 */
         .picturesCategorySearchWrap {
             display: flex;
             margin-top: -20px;
@@ -100,6 +102,7 @@
             width: 1190px;
 
         }
+
 
         .pictureCard {
             height: 238px;
@@ -181,7 +184,7 @@
 
         function makePictureCard(imgURL, userNickname, title) {
             let tempHtml = `
-                            <a class="picture" href="">
+                            <a class="picture" href="/searchPictureDetail/${title}">
                                 <div class="screen">
                                     <div class="hoverTitle">${title}</div>
                                     <div class="hoveruserNickname">${userNickname}</div>
@@ -190,6 +193,8 @@
                             </a>`
             $("#pictureCardsWrap").append(tempHtml);
         }
+
+
 
         function show_Pictures(category = 'all') {
             // 1. 그림 데이터를 서버에 요청하기
@@ -212,6 +217,7 @@
                 }
             })
         }
+
 
 
 

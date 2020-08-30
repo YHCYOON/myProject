@@ -73,6 +73,22 @@ def picture_Regist():
     return jsonify({'result': 'success', 'msg': '등록되었습니다!'})
 
 
+@app.route('/pictureDetail/<title>', methods=['GET'])
+def picture_detail_page(title):
+    return render_template('pictureDetail.html')
+
+
+@app.route('/searchPictureDetail/<title>', methods=['GET'])
+def picture_Detail(title):
+    pictureDetail = list(db.pictureInfos.find({'title' : title}, {'_id': 0}))
+
+    # 2. 성공 여부 & 리뷰 목록 반환하기
+    return jsonify({'result': 'success', 'pictureDetail': pictureDetail})
+
+
+
+
+
 @app.route('/pictureRank')
 def picture_Rank():
     return render_template('pictureRank.html')

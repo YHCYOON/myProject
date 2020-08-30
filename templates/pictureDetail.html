@@ -11,12 +11,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <style>
+        /* Nav Bar */
         .contentWrap {
             height: 1300px;
             width: 1190px;
@@ -71,9 +72,210 @@
             margin: 30px 55px 0 55px;
         }
 
+        /*  */
+
+        .pictureDetailtWrap {
+            height: 830px;
+            width: 1190px;
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .pictureDetailLeft {
+            height: 830px;
+            width: 800px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .pictureDetailRight {
+            height: 830px;
+            width: 365px;
+            display: inline-block;
+            margin-top: -6px;
+        }
+
+        .showImage {
+            height: 818px;
+            width: 778px;
+            background-color: #BEC2C2;
+            margin-left: 12px;
+        }
+
+        img {
+            height: 818px;
+            width: 778px;
+        }
+
+
+        .form-control {
+            margin-right: 7px;
+        }
+
+        .btn btn-outline-info {
+            height: 45px;
+        }
+
+        .pictureTitleMiddleArea, .pictureIdMiddleArea, .pictureNicknameMiddleArea {
+            width: 12px;
+        }
+
+        .input-group-text {
+            background-color: #66CED3;
+            color: white;
+            font-weight: 700;
+        }
+
+        .pictureId, .pictureNickname, .pictureTitle {
+            margin-top: 10px;
+        }
+
+        .pictureComment {
+            height: 45px;
+            width: 360px;
+            margin-top: 13px;
+        }
+
+        .pictureCommentMiddleArea {
+            height: 13px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .pictureShowTopArea {
+            height: 460px;
+        }
+
+        .pictureLikeTopArea {
+            height: 6px;
+        }
+
+        .pictureFavoriteTopArea {
+            height: 6px;
+        }
+
     </style>
+    <script>
+        $(document).ready(function () {
+            showPictureDetail(title);
+        })
+
+        function showPictureDetail(title) {
+            $.ajax({
+                type: "GET",
+                url: `/searchPictureDetail/${title}`,
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+
+                        let pictureDetail = response["pictureDetail"];
+
+                        let category = pictureDetail['category']
+                        let title = pictureDetail['title']
+                        let url = pictureDetail['imgURL']
+                        let userNickname = pictureDetail['userNickname']
+
+                        alert(category)
+                    } else {
+                        alert("이미지를 불러오지 못했습니다");
+                    }
+
+
+                }
+            })
+        }
+
+        function makePictureDetail() {
+
+
+        }
+
+
+    </script>
 </head>
 <body>
+<div class="contentWrap">
+    <nav class="navBar">
+        <div class="navBarLogoWrap">
+            <div class="navBarLogo">
+                <a href="">DraWell</a>
+            </div>
+        </div>
+        <div class="navBarMenuWrap">
+            <div class="navBarMenu">
+                <div class="pictures">
+                    <a href="">작품</a>
+                </div>
+                <div class="ranking">
+                    <a href="">랭킹</a>
+                </div>
+                <div class="pictureRegist">
+                    <a href="">그림등록</a>
+                </div>
+                <div class="myPictures">
+                    <a href="">나의그림</a>
+                </div>
+                <div class="favorite">
+                    <a href="">Favorite</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="pictureDetailtWrap">
+        <div class="pictureDetailLeft">
+            <div class="showImage">
+                <img class="urlImg" id="urlImg">
+            </div>
+
+        </div>
+        <div class="pictureDetailRight">
+
+            <div class="pictureId">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+                    <div class="pictureIdMiddleArea"></div>
+                    <input type="text" id="category" class="form-control" readonly>
+                </div>
+            </div>
+
+            <div class="pictureNickname">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect02">닉네임</label>
+                    <div class="pictureNicknameMiddleArea"></div>
+                    <input type="text" id="userNickname" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="pictureTitle">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect02">제목</label>
+                    <div class="pictureTitleMiddleArea"></div>
+                    <input type="text" id="title" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="pictureComment">
+                <label class="input-group-text" for="inputGroupSelect01">작품설명</label>
+                <div class="pictureCommentMiddleArea"></div>
+
+                <textarea id="comment" class="form-control" rows="18" readonly></textarea>
+
+            </div>
+            <div class="pictureShow">
+                <div class="pictureShowTopArea"></div>
+                <button onclick="picture_Regist()" type="button" class="btn btn-info btn-lg btn-block">원본크기로 보기</button>
+            </div>
+            <div class="pictureLike">
+                <div class="pictureLikeTopArea"></div>
+                <button onclick="picture_Regist()" type="button" class="btn btn-info btn-lg btn-block">좋아요</button>
+            </div>
+            <div class="pictureFavorite">
+                <div class="pictureFavoriteTopArea"></div>
+                <button onclick="picture_Regist()" type="button" class="btn btn-info btn-lg btn-block">최애그림 추가</button>
+            </div>
+
+        </div>
+    </div>
 
 </body>
 </html>
