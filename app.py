@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)
 
-db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다
+db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다#############
 
 @app.route('/webhook', methods=['POST'])
 def web_hook():
