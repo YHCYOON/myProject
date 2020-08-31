@@ -3,8 +3,16 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 
-client = MongoClient('localhost', 27017)  #mongoDB는 27017 포트로 돌아갑니다.
-db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다.
+client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다
+db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다
+
+# @app.route('/webhook', methods=['POST'])
+# def web_hook():
+#     web_hook_data = request.form
+#     print(web_hook_data)
+#     os.system('cd /home/ubuntu/myProject && git pull')
+#     return jsonify({'result': 'success'})
+
 
 @app.route('/index')
 def index():
@@ -39,9 +47,11 @@ def search_Content(searchCategory, searchContent):
     return jsonify({'result': 'success', 'pictureInfos': pictureInfos})
 
 
+##### pictureRegist.html 호출 / 현재 pictureInfos를 카운트하여 dbNumber값을 함께 반환 #####
 @app.route('/pictureRegist', methods=['GET'])
 def picture_Regist_Page():
-    return render_template('pictureRegist.html')
+    listCount = db.pictureInfos.count()
+    return render_template('pictureRegist.html', dbNumber=listCount)
 
 
 @app.route('/pictureRegist', methods=['POST'])
@@ -54,6 +64,7 @@ def picture_Regist():
     nickname_receive = request.form['userNickname_give']
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
+    dbNumber_receive = request.form['dbNumber_give']
 
     # DB에 삽입할 pictureInfo 만들기
     pictureInfo = {
@@ -63,7 +74,8 @@ def picture_Regist():
         'userPW': pw_receive,
         'userNickname': nickname_receive,
         'title': title_receive,
-        'comment': comment_receive
+        'comment': comment_receive,
+        'dbNumber': dbNumber_receive
     }
 
     # pictureInfos 에 pictureInfo 저장하기
@@ -73,19 +85,16 @@ def picture_Regist():
     return jsonify({'result': 'success', 'msg': '등록되었습니다!'})
 
 
-@app.route('/pictureDetail/<title>', methods=['GET'])
-def picture_detail_page(title):
-    return render_template('pictureDetail.html')
-
-
-@app.route('/searchPictureDetail/<title>', methods=['GET'])
-def picture_Detail(title):
-    pictureDetail = list(db.pictureInfos.find({'title' : title}, {'_id': 0}))
-
-    # 2. 성공 여부 & 리뷰 목록 반환하기
-    return jsonify({'result': 'success', 'pictureDetail': pictureDetail})
-
-
+@app.route('/pictureDetail/pictureCode=<dbNumber>/', methods=['GET'])
+def picture_detail_Page(dbNumber):
+    picture_detail = list(db.pictureInfos.find({'dbNumber': dbNumber}, {'_id': 0}))
+    picture_detail_content = {'title': picture_detail[0]['title'],
+                              'category': picture_detail[0]['category'],
+                              'userNickname': picture_detail[0]['userNickname'],
+                              'comment': picture_detail[0]['comment'],
+                              'imgURL': picture_detail[0]['imgURL'],
+                              'dbNumber': picture_detail[0]['dbNumber']}
+    return render_template('pictureDetail.html', detailContent=picture_detail_content)
 
 
 

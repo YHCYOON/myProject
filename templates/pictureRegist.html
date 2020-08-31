@@ -154,7 +154,7 @@
         }
 
         .pictureComment {
-            height: 45px;
+            height: 500px;
             width: 360px;
             margin-top: 13px;
         }
@@ -171,11 +171,11 @@
         }
 
         .pictureSaveTopArea {
-            height: 470px;
+            height: 15px;
         }
     </style>
     <script>
-        //입력한 URL 에 따른 이미지가 출력되었나 확인
+        //입력한 URL 에 따른 이미지가 출력되었나 확인합니다
         let imageError = true;
 
         $(window).on('load', function () {
@@ -191,7 +191,8 @@
         }
 
         function picture_Regist(){
-            // 입력한 카테고리,아이디,비밀번호,닉네임,제목,작품설명 값을 가져옵니다
+            // 입력한 URL,카테고리,아이디,비밀번호,닉네임,제목,작품설명,DB넘버(그림을 구분하기 위한 숫자) 값을 가져옵니다
+
             let imgURL = $("#inputURL").val();
             let category = $("#category").val();
             let userID = $("#userID").val();
@@ -200,14 +201,10 @@
             let title = $("#title").val();
             let comment = $("#comment").val();
 
+            let dbNumber = Number('{{ dbNumber }}') + Number(1);
 
             // 값들을 하나라도 입력하지 않았을 때 alert를 띄웁니다
 
-            /*
-            if (imgURL == "" || category == "카테고리를 선택하세요" || userID == "" || userPW == "" || userNickname == "" || title == "" || comment == ""){
-              alert("입력하지 않은 항목이 있어요!")
-            }
-            */
             if (imgURL == "") {
                     alert("URL을 입력해주세요");
                     $("#imgURL").focus();
@@ -238,15 +235,23 @@
                     return;
                 } else if(imageError) {
                         alert("올바른 이미지 URL을 입력해주세요");
-                        $("#comment").focus();
+                        $("#imgURL").focus();
                         return;
             }
 
-            // POST /pictureRegist에 저장을 요청합니다
+            // POST /pictureRegist 에 저장을 요청합니다
             $.ajax({
                 type: "POST",
                 url: "/pictureRegist",
-                data: {imgURL_give: imgURL, category_give: category, userID_give: userID, userPW_give: userPW, userNickname_give: userNickname, title_give: title, comment_give: comment},
+                data: {imgURL_give: imgURL,
+                    category_give: category,
+                    userID_give: userID,
+                    userPW_give: userPW,
+                    userNickname_give: userNickname,
+                    title_give: title,
+                    comment_give: comment,
+                    dbNumber_give: dbNumber},
+
                 success: function(response){
                     if(response["result"] == "success"){
                         alert(response["msg"]);
@@ -342,11 +347,14 @@
             </div>
             <div class="pictureComment">
                 <label class="input-group-text" for="inputGroupSelect01">작품설명</label>
-                <div class="pictureCommentMiddleArea"></div>
+                <div class="pictureCommentMiddleArea">
 
-                <textarea id="comment" class="form-control" rows="18"></textarea>
-
+                </div>
+                    <textarea id="comment" class="form-control" rows="18"></textarea>
             </div>
+
+
+
             <div class="pictureSave">
                 <div class="pictureSaveTopArea"></div>
                 <button onclick="picture_Regist()" type="button" class="btn btn-info btn-lg btn-block">저장</button>

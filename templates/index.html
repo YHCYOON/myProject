@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DraWell</title>
 
+    <meta property="og:title" content="DraWell" />
+    <meta property="og:description" content="내 그림을 자랑해보세요!!" />
+    <meta property="og:image" content="{{ url_for('static', filename='DraWell_Logo.png') }}" />
+
     <!--<link href="{{url_for('static', filename='index.css')}}" rel="stylesheet" id="login-css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -182,9 +186,9 @@
             });
         });
 
-        function makePictureCard(imgURL, userNickname, title) {
+        function makePictureCard(imgURL, userNickname, title, dbNumber) {
             let tempHtml = `
-                            <a class="picture" href="/searchPictureDetail/${title}">
+                            <a class="picture" href="/pictureDetail/pictureCode=${dbNumber}">
                                 <div class="screen">
                                     <div class="hoverTitle">${title}</div>
                                     <div class="hoveruserNickname">${userNickname}</div>
@@ -209,7 +213,7 @@
                         let pictureInfos = response["pictureInfos"];
                         // 3. 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
                         for (let i = 0; i < pictureInfos.length; i++) {
-                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"]);
+                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"], pictureInfos[i]["dbNumber"]);
                         }
                     } else {
                         alert("이미지를 불러오지 못했습니다");
@@ -250,7 +254,7 @@
                         let pictureInfos = response["pictureInfos"];
                         // 3. 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
                         for (let i = 0; i < pictureInfos.length; i++) {
-                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"]);
+                            makePictureCard(pictureInfos[i]["imgURL"], pictureInfos[i]["userNickname"], pictureInfos[i]["title"], pictureInfos[i]["dbNumber"]);
                         }
                     } else {
                         alert("이미지를 불러오지 못했습니다");
