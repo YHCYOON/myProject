@@ -1,17 +1,20 @@
+import os
+
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 
 app = Flask(__name__)
 
-client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)  # mongoDB는 27017 포트로 돌아갑니다
+client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)
+
 db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다
 
-# @app.route('/webhook', methods=['POST'])
-# def web_hook():
-#     web_hook_data = request.form
-#     print(web_hook_data)
-#     os.system('cd /home/ubuntu/myProject && git pull')
-#     return jsonify({'result': 'success'})
+@app.route('/webhook', methods=['POST'])
+def web_hook():
+    web_hook_data = request.form
+    print(web_hook_data)
+    os.system('cd /home/ubuntu/drawell/myProject && git pull')
+    return jsonify({'result': 'success'})
 
 
 @app.route('/index')

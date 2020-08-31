@@ -159,14 +159,6 @@
     </style>
     <script>
 
-    $(document).ready(function(){
-        $("#urlImg").attr("src", '{{ detailContent['imgURL'] }}');
-        $("#title").val('{{ detailContent['title'] }}');
-        $("#category").val('{{ detailContent['category'] }}');
-        $("#userNickname").val('{{ detailContent['userNickname'] }}');
-        $("#comment").val('{{ detailContent['comment'] }}');
-
-    });
 
     </script>
 </head>
@@ -201,7 +193,7 @@
     <div class="pictureDetailtWrap">
         <div class="pictureDetailLeft">
             <div class="showImage">
-                <img class="urlImg" id="urlImg">
+                <img class="urlImg" id="urlImg" src="{{ detailContent['imgURL'] }}">
             </div>
 
         </div>
@@ -211,7 +203,7 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">카테고리</label>
                     <div class="pictureIdMiddleArea"></div>
-                    <input type="text" id="category" class="form-control" readonly>
+                    <input type="text" id="category" value="{{ detailContent['category'] }}" class="form-control" readonly>
                 </div>
             </div>
 
@@ -219,21 +211,21 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect02">닉네임</label>
                     <div class="pictureNicknameMiddleArea"></div>
-                    <input type="text" id="userNickname" class="form-control" readonly>
+                    <input type="text" id="userNickname" value="{{ detailContent['userNickname'] }}" class="form-control" readonly>
                 </div>
             </div>
             <div class="pictureTitle">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect02">제목</label>
                     <div class="pictureTitleMiddleArea"></div>
-                    <input type="text" id="title" class="form-control" readonly>
+                    <input type="text" id="title" value="{{ detailContent['title'] }}" class="form-control" readonly>
                 </div>
             </div>
             <div class="pictureComment">
                 <label class="input-group-text" for="inputGroupSelect01">작품설명</label>
                 <div class="pictureCommentMiddleArea"></div>
 
-                <textarea id="comment" class="form-control" rows="18" readonly></textarea>
+                <textarea id="comment" class="form-control" rows="18" readonly>{{ detailContent['comment'] }}</textarea>
 
             </div>
             <div class="pictureShow">
