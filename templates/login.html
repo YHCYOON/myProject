@@ -9,7 +9,9 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-
+        function onClickSignUp() {
+            $(location).attr('href', '/signUp');
+        }
     </script>
     <style>
         /* BASIC */
@@ -328,7 +330,7 @@
 <body>
 
 <!------ Include the above in your HEAD tag ---------->
-<a href="login.html" id="navLogo">
+<a href="/login" id="navLogo">
     <img src="../static/illustre_logo_white.png" alt="illustre">
 </a>
 <div class="wrapper fadeInDown">
@@ -347,9 +349,7 @@
             <input type="text" id="userID" class="fadeIn third" name="userID" placeholder="ID">
             <input type="text" id="password" class="fadeIn fourth" name="password" placeholder="Password">
             <input type="submit" class="fadeIn fifth" value="로그인">
-            <a href="signUp.html">
-                <input type="button" id="btnSignUp" href="signUp.html" class="fadeIn fifth" value="계정 만들기">
-            </a>
+            <input type="button" id="btnSignUp" onclick="onClickSignUp()" class="fadeIn fifth" value="계정 만들기">
         </form>
 
         <!-- Remind Passowrd -->

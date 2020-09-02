@@ -1,16 +1,17 @@
 import os
 
-from bson import ObjectId
-from flask import Flask, render_template, jsonify, request, session, redirect
+from bson import ObjectId, datetime
+from flask import Flask, request, jsonify, render_template, redirect, session
 from pymongo import MongoClient
-from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'userKey'
 
-client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)
+# client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)           ## 리눅스서버
+client = MongoClient('localhost', 27017)                                            ## 로컬
 
 db = client.illustre  # 'illustre' 라는 이름의 db를 만들거나 사용합니다
+
 
 @app.route('/webhook', methods=['POST'])
 def web_hook():
@@ -21,7 +22,7 @@ def web_hook():
 
 
 @app.route('/')
-def session():
+def main():
     # 세션에 'sessionID'라는 변수가 있는
     if 'sessionID' in session:
         # 세션에 'sessionID'라는 변수의 값을 가져와서
@@ -40,6 +41,7 @@ def session():
         return render_template('main.html', nickname=user['nickname'])
     return render_template('login.html')
 
+
 @app.route('/login', methods=['GET'])
 def login_page():
     return render_template('login.html')
@@ -51,6 +53,8 @@ def login():
     password = request.form['password']
 
     user = db.user.find_one({'user_id': user_id, 'password': password})
+
+    print(user)
 
     if user is not None:
         # 세션을 생성하는데
@@ -80,6 +84,11 @@ def sign_up():
 def logout():
     session.pop('sessionID')
     return jsonify({'result': 'success'})
+
+
+@app.route('/main', methods=['GET'])
+def main_page():
+    return render_template('main.html')
 
 
 @app.route('/images/<category>', methods=['GET'])
@@ -161,7 +170,6 @@ def picture_detail_Page(pictureCode):
                               'datetime': picture_detail[0]['datetime'],
                               'likeCount': picture_detail[0]['likeCount']}
     return render_template('pictureDetail.html', detailContent=picture_detail_content)
-
 
 
 @app.route('/pictureRank')
