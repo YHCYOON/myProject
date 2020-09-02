@@ -1,25 +1,85 @@
 import os
 
-from flask import Flask, render_template, jsonify, request
+from bson import ObjectId
+from flask import Flask, render_template, jsonify, request, session, redirect
 from pymongo import MongoClient
+from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = 'userKey'
 
 client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)
 
-db = client.DraWell  # 'DraWell'라는 이름의 db를 만들거나 사용합니다#############
+db = client.illustre  # 'illustre' 라는 이름의 db를 만들거나 사용합니다
 
 @app.route('/webhook', methods=['POST'])
 def web_hook():
     web_hook_data = request.form
     print(web_hook_data)
-    os.system('cd /home/ubuntu/drawell/myProject && git pull')
+    os.system('cd /home/ubuntu/illustre/myProject && git pull')
     return jsonify({'result': 'success'})
 
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
+@app.route('/')
+def session():
+    # 세션에 'sessionID'라는 변수가 있는
+    if 'sessionID' in session:
+        # 세션에 'sessionID'라는 변수의 값을 가져와서
+        session_id = session['sessionID']
+        # 'sessionID'에 담긴 값(유저 생성시에 만들어진 _id 값)에 대한
+        # 유저 정보가 user DB에 있는지 확인
+        user = db.user.find_one({'_id': ObjectId(session_id)})
+
+        # 세션에 'sessionID'라는 변수의 값이 비어있거나
+        # 'sessionID'에 담긴 값(유저 생성시에 만들어진 _id 값)에 대한
+        # 유저 정보가 없다면
+        if session_id is None or user is None:
+            # 로그인 페이지를 띄워줌
+            return render_template('login.html')
+        # 아니라면 로그인 한 세션이 있는 유저이므로 메인 페이지로 보냄
+        return render_template('main.html', nickname=user['nickname'])
+    return render_template('login.html')
+
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user_id = request.form['userID']
+    password = request.form['password']
+
+    user = db.user.find_one({'user_id': user_id, 'password': password})
+
+    if user is not None:
+        # 세션을 생성하는데
+        # 세션에 'sessionID'라는 변수에
+        # 유저 생성시 만들어진 _id 값을 넣어둠(유저 고유 식별자이기 때문)
+        session['sessionID'] = str(user['_id'])
+        return redirect('/')
+    return render_template('login.html')
+
+
+@app.route('/signUp', methods=['GET'])
+def sign_up_page():
+    return render_template('signUp.html')
+
+
+@app.route('/signUp', methods=['POST'])
+def sign_up():
+    user_id = request.form['userID']
+    password = request.form['password']
+    nickname = request.form['nickname']
+
+    db.user.insert_one({'user_id': user_id, 'password': password, 'nickname': nickname})
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('sessionID')
+    return jsonify({'result': 'success'})
 
 
 @app.route('/images/<category>', methods=['GET'])
@@ -51,34 +111,36 @@ def search_Content(searchCategory, searchContent):
 
 
 ##### pictureRegist.html 호출 / 현재 pictureInfos를 카운트하여 dbNumber값을 함께 반환 #####
-@app.route('/pictureRegist', methods=['GET'])
+@app.route('/pictureregist', methods=['GET'])
 def picture_Regist_Page():
-    listCount = db.pictureInfos.count()
-    return render_template('pictureRegist.html', dbNumber=listCount)
+    now = datetime.strftime.now('%Y%m%d %H%M%S')
+    return render_template('pictureRegist.html', now=now)
 
 
-@app.route('/pictureRegist', methods=['POST'])
+@app.route('/pictureregist', methods=['POST'])
 def picture_Regist():
     # 클라이언트가 give로 준 값들 가져오기
-    imgurl_receive = request.form['imgURL_give']
+    imgUrl_receive = request.form['imgURL_give']
     category_receive = request.form['category_give']
     id_receive = request.form['userID_give']
     pw_receive = request.form['userPW_give']
     nickname_receive = request.form['userNickname_give']
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
-    dbNumber_receive = request.form['dbNumber_give']
+    likeCount_receive = request.form['likeCount_give']
+    datetime_receive = request.form['now_give']
 
     # DB에 삽입할 pictureInfo 만들기
     pictureInfo = {
-        'imgURL': imgurl_receive,
+        'imgURL': imgUrl_receive,
         'category': category_receive,
         'userID': id_receive,
         'userPW': pw_receive,
         'userNickname': nickname_receive,
         'title': title_receive,
         'comment': comment_receive,
-        'dbNumber': dbNumber_receive
+        'likeCount': likeCount_receive,
+        'datetime': datetime_receive
     }
 
     # pictureInfos 에 pictureInfo 저장하기
@@ -88,15 +150,16 @@ def picture_Regist():
     return jsonify({'result': 'success', 'msg': '등록되었습니다!'})
 
 
-@app.route('/pictureDetail/pictureCode=<dbNumber>/', methods=['GET'])
-def picture_detail_Page(dbNumber):
-    picture_detail = list(db.pictureInfos.find({'dbNumber': dbNumber}, {'_id': 0}))
+@app.route('/picturedetail/picturecode=<pictureCode>/', methods=['GET'])
+def picture_detail_Page(pictureCode):
+    picture_detail = list(db.pictureInfos.find({'_id': ObjectId.Parse(pictureCode)}))
     picture_detail_content = {'title': picture_detail[0]['title'],
                               'category': picture_detail[0]['category'],
                               'userNickname': picture_detail[0]['userNickname'],
                               'comment': picture_detail[0]['comment'],
                               'imgURL': picture_detail[0]['imgURL'],
-                              'dbNumber': picture_detail[0]['dbNumber']}
+                              'datetime': picture_detail[0]['datetime'],
+                              'likeCount': picture_detail[0]['likeCount']}
     return render_template('pictureDetail.html', detailContent=picture_detail_content)
 
 

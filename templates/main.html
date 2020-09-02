@@ -19,8 +19,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+
 
     <style>
+        *{
+            font-family: 'Poor Story', cursive;
+        }
         /* Nav */
         .contentWrap {
             height: 1300px;
@@ -84,7 +89,7 @@
         }
 
         .picturesCategoryBtnWrap {
-            width: 743.04px;
+            width: 803.04px;
         }
 
         .btn btn-outline-info {
@@ -186,9 +191,9 @@
             });
         });
 
-        function makePictureCard(imgURL, userNickname, title, dbNumber) {
+        function makePictureCard(imgURL, userNickname, title, pictureCode) {
             let tempHtml = `
-                            <a class="picture" href="/pictureDetail/pictureCode=${dbNumber}">
+                            <a class="picture" href="/picturedetail/picturecode=${pictureCode}">
                                 <div class="screen">
                                     <div class="hoverTitle">${title}</div>
                                     <div class="hoveruserNickname">${userNickname}</div>
@@ -271,13 +276,13 @@
     <nav class="navBar">
         <div class="navBarLogoWrap">
             <div class="navBarLogo">
-                <a href="">DraWell</a>
+                <a href=""><img src="../static/illustre_logo_white.png"></a>
             </div>
         </div>
         <div class="navBarMenuWrap">
             <div class="navBarMenu">
                 <div class="pictures">
-                    <a href="">작품</a>
+                    <a href="">Pictures</a>
                 </div>
                 <div class="ranking">
                     <a href="">랭킹</a>
@@ -296,10 +301,10 @@
     </nav>
     <div class="picturesCategory">
         <div class="picturesCategoryBtnWrap">
-            <button type="button" name="showCategory" id="showAll" class="btn btn-outline-info all" value="all">전체보기
+            <button type="button" name="showCategory" id="showAll" class="btn btn-outline-info all" value="all">All
             </button>
             <button type="button" name="showCategory" id="showChar" class="btn btn-outline-info character"
-                    value="character">캐릭터 일러스트
+                    value="character">Character
             </button>
             <button type="button" name="showCategory" id="showBackground" class="btn btn-outline-info background"
                     value="background">배경 일러스트
