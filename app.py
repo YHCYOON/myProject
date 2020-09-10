@@ -248,9 +248,9 @@ def Rank_Page(category):
         else:
             picture_rank_content = list(db.pictureInfos.find({'category': category}).sort("likeCount", -1))
 
-        return render_template('rank.html', picture_rank_content=picture_rank_content, nickname=user['nickname'],
-                               userkey=user['_id'])
+        return render_template('rank.html', picture_rank_content=picture_rank_content, nickname=user['nickname'])
     return render_template('rank.html')
+
 
 @app.route('/mypicture', methods=['GET'])
 def Mypicture_Page():
