@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>illustre - 일러스트리</title>
+
+    <link href="{{ url_for('static', filename='rank.css') }}" rel="stylesheet" id="login-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+
+    <script>
+        // 로그아웃해서 세션 버리는 함수
+        function onClickLogOut() {
+            $.ajax({
+                url: '/logout',
+                method: 'POST',
+                data: {},
+                success: function (response) {
+                    $(location).attr('href', '/');
+                }
+            })
+        }
+
+        // Nav Bar 로고 , 작품보기
+        function onClickMain() {
+            $(location).attr('href', '/');
+        }
+
+        // Nav Bar 랭킹
+        function onClickRanking() {
+            $(location).attr('href', '/rank/all');
+        }
+
+        // Nav Bar 작품등록
+        function onClickPictureRegist() {
+            $(location).attr('href', '/pictureregist');
+        }
+
+        // Nav Bar 나의작품
+        function onClickMypicture() {
+            $(location).attr('href', '/mypicture');
+        }
+
+        // Nav Bar 갤러리
+        function onClickGallery() {
+            $(location).attr('href', '#');
+        }
+
+        function showAll() {
+            $("#rankCategory").text("전체보기");
+            $(location).attr('href', '/rank/all');
+        }
+
+        function showCharacter() {
+            $("#rankCategory").text("캐릭터 일러스트");
+            $(location).attr('href', '/rank/캐릭터 일러스트');
+
+        }
+
+        function showBackground() {
+            $("#rankCategory").text("배경 일러스트");
+            $(location).attr('href', '/rank/배경 일러스트');
+        }
+
+        function showSketch() {
+            $("#rankCategory").text("스케치");
+            $(location).attr('href', '/rank/스케치');
+        }
+
+        // 페이지 로딩되면 그림 불러옴
+        $(window).on('load', function () {
+            $("button[name = 'showCategory']").on('click', function () {
+                let imageCategory = $(this).val();
+                console.log(imageCategory);
+                getPictures(imageCategory);
+            });
+        });
+
+        function getPictures(category = 'all') {
+            $('#pictureCardSection').empty();
+
+            // 1. 그림데이터를 서버에 요청
+            $.ajax({
+                type: "GET",
+                url: `/rank/${category}`,
+                data: {}
+            })
+
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="wrap">
+    <nav class="navBar">
+        <div class="navBarContent">
+            <a href="#" onclick="onClickMain()" class="navBarLogo">
+                <img src="../static/illustre_logo.png" alt="illustre">
+            </a>
+            <div class="navContent">
+                <div class="showPicture">
+                    <a href="#" onclick="onClickMain()">&nbsp&nbsp&nbsp&nbsp 작품보기 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="ranking">
+                    <a href="#" onclick="onClickRanking()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 랭킹
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="pictureRegist">
+                    <a href="#" onclick="onClickPictureRegist()">&nbsp&nbsp&nbsp&nbsp 작품등록 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="myPicture">
+                    <a href="#" onclick="onClickMypicture()">&nbsp&nbsp&nbsp&nbsp 나의작품 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="favorite">
+                    <a href="#" onclick="onClickGallery()">&nbsp&nbsp&nbsp&nbsp 갤러리 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+            </div>
+            <div class="helloUser">
+                <div class="hello">안녕하세요</div>
+                <div class="user">{{ nickname }}님!</div>
+            </div>
+            <div class="logOutBtn">
+                <button type="button" onclick="onClickLogOut()" class="btn btn-outline-primary btn-sm">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+    <div>
+
+    </div>
+    <div class="searchBar">
+        <div class="searchBarContent">
+            <div class="category">
+                <button type="button" onclick="showAll()" name="showCategory" id="showAll"
+                        class="btn btn-outline-info all" value="all">전체 랭킹
+                </button>
+                <button type="button" onclick="showCharacter()" name="showCategory" id="showChar"
+                        class="btn btn-outline-info character"
+                        value="캐릭터 일러스트">캐릭터 일러스트
+                </button>
+                <button type="button" onclick="showBackground()" name="showCategory" id="showBackground"
+                        class="btn btn-outline-info background"
+                        value="배경 일러스트">배경 일러스트
+                </button>
+                <button type="button" onclick="showSketch()" name="showCategory" id="showSketch"
+                        class="btn btn-outline-info sketch"
+                        value="스케치">스케치
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="middleSectionWrap">
+        <div class="middleSection">
+            <i class="fas fa-trophy fa-2x"></i>
+            <div class="rankCategory" id="rankCategory">전체 랭킹</div>
+        </div>
+    </div>
+
+    <div class="rankSectionWrap">
+        <div class="rankSectionTop">
+            <div class="rankCard">
+                <a class="rankImg" href="/picturedetail/{{ picture_rank_content[0]['picturenumber'] }}">
+                    <img id="rank1"
+                         src="{{ picture_rank_content[0]['imgURL'] }}">
+                </a>
+                <div class="ranking">
+                    <div class="gold">
+                        <i class="fas fa-medal fa-5x"></i>
+                    </div>
+                    <div class="rankContentWrap">
+                        <div class="rankTitle">
+                            {{ picture_rank_content[0]['title'] }}
+                        </div>
+                        <div class="rankNicknameLike">
+                            <div class="rankNickname">
+                                {{ picture_rank_content[0]['nickname'] }}
+                            </div>
+                            <div class="rankLike">
+                                <i class="fas fa-heart"></i> {{ picture_rank_content[0]['likeCount'] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rankCard">
+                <a class="rankImg" href="/picturedetail/{{ picture_rank_content[1]['picturenumber'] }}">
+                    <img id="rank1"
+                         src="{{ picture_rank_content[1]['imgURL'] }}">
+                </a>
+                <div class="ranking">
+                    <div class="silver">
+                        <i class="fas fa-medal fa-5x"></i>
+                    </div>
+                    <div class="rankContentWrap">
+                        <div class="rankTitle">
+                            {{ picture_rank_content[1]['title'] }}
+                        </div>
+                        <div class="rankNicknameLike">
+                            <div class="rankNickname">
+                                {{ picture_rank_content[1]['nickname'] }}
+                            </div>
+                            <div class="rankLike">
+                                <i class="fas fa-heart"></i> {{ picture_rank_content[1]['likeCount'] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rankCard">
+                <a class="rankImg" href="/picturedetail/{{ picture_rank_content[2]['picturenumber'] }}">
+                    <img id="rank1"
+                         src="{{ picture_rank_content[2]['imgURL'] }}">
+                </a>
+                <div class="ranking">
+                    <div class="bronze">
+                        <i class="fas fa-medal fa-5x"></i>
+                    </div>
+                    <div class="rankContentWrap">
+                        <div class="rankTitle">
+                            {{ picture_rank_content[2]['title'] }}
+                        </div>
+                        <div class="rankNicknameLike">
+                            <div class="rankNickname">
+                                {{ picture_rank_content[2]['nickname'] }}
+                            </div>
+                            <div class="rankLike">
+                                <i class="fas fa-heart"></i> {{ picture_rank_content[2]['likeCount'] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rankSectionBottom">
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[3]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[3]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[3]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[3]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[3]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[4]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[4]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[4]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[4]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[4]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[5]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[5]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[5]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[5]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[5]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[6]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[6]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[6]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[6]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[6]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[7]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[7]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[7]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[7]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[7]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[8]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[8]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[8]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[8]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[8]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[9]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[9]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[9]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[9]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[9]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[10]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[10]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[10]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[10]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[10]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[11]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[11]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[11]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[11]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[11]['imgURL'] }}">
+                </div>
+            </a>
+            <a class="pictureCard" href="/picturedetail/{{ picture_rank_content[12]['picturenumber'] }}">
+                <div class="screen">
+                    <div class="hoverTitle">{{ picture_rank_content[12]['title'] }}</div>
+                    <div class="hoveruserNickname">{{ picture_rank_content[12]['nickname'] }}</div>
+                    <div class="hoverLike">
+                        <i class="fas fa-heart">&nbsp {{ picture_rank_content[12]['likeCount'] }}</i>
+                    </div>
+                    <img id="pictureCard" class="cardImage" src="{{ picture_rank_content[12]['imgURL'] }}">
+                </div>
+            </a>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

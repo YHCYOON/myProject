@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ detailContent['title'] }}</title>
+
+    <link href="{{ url_for('static', filename='galleryDetail.css') }}" rel="stylesheet" id="login-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style>
+
+    </style>
+    <script>
+        // 로그아웃해서 세션 버리는 함수
+        function onClickLogOut() {
+            $.ajax({
+                url: '/logout',
+                method: 'POST',
+                data: {},
+                success: function (response) {
+                    $(location).attr('href', '/');
+                }
+            })
+        }
+
+        // Nav Bar 로고 , 작품보기
+        function onClickMain() {
+            $(location).attr('href', '/');
+        }
+
+        // Nav Bar 랭킹
+        function onClickRanking() {
+            $(location).attr('href', '/rank');
+        }
+
+        // Nav Bar 작품등록
+        function onClickPictureRegist() {
+            $(location).attr('href', '/pictureregist');
+        }
+
+        // Nav Bar 나의작품
+        function onClickMypicture() {
+            $(location).attr('href', '/mypicture');
+        }
+
+        // Nav Bar 갤러리
+        function onClickGallery() {
+            $(location).attr('href', '#');
+        }
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <nav class="navBar">
+        <div class="navBarContent">
+            <a href="#" onclick="onClickMain()" class="navBarLogo">
+                <img src="../static/illustre_logo.png" alt="illustre">
+            </a>
+            <div class="navContent">
+                <div class="showPicture">
+                    <a href="#" onclick="onClickMain()">&nbsp&nbsp&nbsp&nbsp 작품보기 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="ranking">
+                    <a href="#" onclick="onClickRanking()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 랭킹 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="pictureRegist">
+                    <a href="#" onclick="onClickPictureRegist()">&nbsp&nbsp&nbsp&nbsp 작품등록 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="myPicture">
+                    <a href="#" onclick="onClickMypicture()">&nbsp&nbsp&nbsp&nbsp 나의작품 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+                <div class="favorite">
+                    <a href="#" onclick="onClickGallery()">&nbsp&nbsp&nbsp&nbsp 갤러리 &nbsp&nbsp&nbsp&nbsp</a>
+                </div>
+            </div>
+            <div class="helloUser">
+                <div class="hello">안녕하세요</div>
+                <div class="user">{{ nickname }}님!</div>
+            </div>
+            <div class="logOutBtn">
+                <button type="button" onclick="onClickLogOut()" class="btn btn-outline-primary btn-sm">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pictureDetailtSectionWrap">
+        <div class="pictureDetailSection">
+            <div class="pictureDetailLeft">
+                <div class="showImage">
+                    <img id="urlImg" src="https://item.kakaocdn.net/do/5dcb1654f9fe73ffb62e88fcf31505337154249a3890514a43687a85e6b6cc82">
+                </div>
+
+            </div>
+            <div class="pictureDetailRight">
+
+                <div class="pictureCategory">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+
+                        <input type="text" id="category" value="{{ detailContent['category'] }}" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="pictureDate">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect02">등록일자</label>
+
+                        <input type="text" id="date" value="{{ detailContent['date'] }}" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="pictureNickname">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect02">닉네임</label>
+
+                        <input type="text" id="userNickname" value="{{ detailContent['userNickname'] }}" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="pictureTitle">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect02">제목</label>
+
+                        <input type="text" id="title" value="{{ detailContent['title'] }}" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="pictureComment">
+                    <label class="input-group-text" for="inputGroupSelect01">작품설명</label>
+                    <textarea id="comment" class="form-control" rows="19" readonly>{{ detailContent['comment'] }}</textarea>
+
+                </div>
+                <div class="pictureShow">
+                    <button onclick="" type="button" class="btn btn-outline-dark btn-block">원본크기로 보기</button>
+                </div>
+                <div class="pictureFavorite">
+                    <button onclick="" type="button" class="btn btn-outline-dark btn-block">갤러리에서 삭제</button>
+                </div>
+                <div class="pictureLike">
+                    <button onclick="" type="button" class="btn btn-outline-dark btn-block">좋아요 <i class="fas fa-heart"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

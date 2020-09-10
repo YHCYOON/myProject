@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>illustre - 일러스트리</title>
 
-    <meta property="og:title" content="illustre - 일러스트리"/>
-    <meta property="og:description" content="내가 그려가는 세상"/>
-    <meta property="og:image" content="{{ url_for('static', filename='illustre_logo.png') }}"/>
-
-    <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet" id="login-css">
+    <link href="{{ url_for('static', filename='gallery.css') }}" rel="stylesheet" id="login-css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
@@ -25,9 +21,7 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-
     <script>
-
         // 로그아웃해서 세션 버리는 함수
         function onClickLogOut() {
             $.ajax({
@@ -47,7 +41,7 @@
 
         // Nav Bar 랭킹
         function onClickRanking() {
-            $(location).attr('href', '/rank/all');
+            $(location).attr('href', '/rank');
         }
 
         // Nav Bar 작품등록
@@ -55,40 +49,21 @@
             $(location).attr('href', '/pictureregist');
         }
 
-        // Nav Bar 나의작품
+        // Nav Bar 나의자품
         function onClickMypicture() {
             $(location).attr('href', '/mypicture');
         }
 
         // Nav Bar 갤러리
         function onClickGallery() {
-            $(location).attr('href', '#');
-        }
-
-        // 카테고리 버튼 누르면 항목바뀜
-        function showAll(){
-            $("#pictureCategoryCount").text("전체보기");
-        }
-        function showCharacter(){
-            $("#pictureCategoryCount").text("캐릭터 일러스트");
-        }
-        function showBackground(){
-            $("#pictureCategoryCount").text("배경 일러스트");
-        }
-        function showSketch(){
-            $("#pictureCategoryCount").text("스케치");
+            $(location).attr('href', '/gallery');
         }
 
 
         // 페이지 로딩되면 그림 불러옴
         $(window).on('load', function () {
             getPictures();
-            $("button[name = 'showCategory']").on('click', function () {
-                let imageCategory = $(this).val();
-                console.log(imageCategory);
-                getPictures(imageCategory);
-            });
-        });
+        })
 
         // 카드 만들어서 붙이는 함수
         function makePictureCards(imgURL, title, nickname, likeCount, picturenumber) {
@@ -107,30 +82,29 @@
             $('#pictureCardSection').append(temp_Html);
         }
 
-
-        function getPictures(category = 'all') {
+        function getPictures() {
             $('#pictureCardSection').empty();
 
             // 1. 그림데이터를 서버에 요청
             $.ajax({
                 type: "GET",
-                url: `/${category}`,
+                url: "/getgallery",
                 data: {},
                 success: function (response) {
                     // 2. 요청 성공 여부 확인
                     //console.log(response)
 
                     if (response["result"] == "success") {
-                        let pictureInfos = response["pictureInfos"];
-                        //console.log(pictureInfos)
+                        let gallery = response["gallery"];
+                        //console.log(gallery)
                         // 3. 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
 
-                        for (let i = 0; i < pictureInfos.length; i++) {
-                            let imgURL = pictureInfos[i]["imgURL"];
-                            let title = pictureInfos[i]["title"];
-                            let nickname = pictureInfos[i]["nickname"];
-                            let likeCount = pictureInfos[i]["likeCount"];
-                            let picturenumber = pictureInfos[i]["picturenumber"];
+                        for (let i = 0; i < gallery.length; i++) {
+                            let imgURL = gallery[0]["imgURL"];
+                            let title = gallery[0]["title"];
+                            let nickname = gallery[0]["nickname"];
+                            let likeCount = gallery[0]["likeCount"];
+                            let picturenumber = gallery[0]["picturenumber"];
                             // console.log(imgURL, title, nickname, likeCount, picturenumber)
                             makePictureCards(imgURL, title, nickname, likeCount, picturenumber);
                         }
@@ -140,53 +114,6 @@
                 }
             })
 
-        }
-
-
-        function searchContent() {
-            $("#pictureCardSection").empty();
-
-            // 1. 검색한 카테고리와 내용값을 가져옴
-            let searchCategory = $("#searchCategory").val();
-            let searchContent = $("#searchContent").val();
-
-            $("#pictureCategoryCount").text(searchContent+"으로 검색결과");
-
-            // 2. 검색할 내용을 입력하지 않았을때, 내용이 두글자 이하일때 alert띄움
-            if (searchContent == "") {
-                alert("내용을 입력해주세요");
-                $("#searchContent").focus();
-                return
-            } else if (searchContent.length < 2) {
-                alert("두글자 이상 입력해주세요");
-                $("#searchContent").focus();
-                return;
-            }
-
-
-            $.ajax({
-                type: "GET",
-                url: `/${searchCategory}/${searchContent}`,
-                data: {},
-                success: function (response) {
-                    // 요청 성공 확인하기
-                    if (response["result"] == "success") {
-                        //console.log(response)
-                        let pictureInfos = response["pictureInfos"];
-
-                        // 요청 성공했을 때 이미지를 올바르게 화면에 나타내기
-                        for (let i = 0; i < pictureInfos.length; i++) {
-                            let imgURL = pictureInfos[i]["imgURL"];
-                            let title = pictureInfos[i]["title"];
-                            let nickname = pictureInfos[i]["nickname"];
-                            let likeCount = pictureInfos[i]["likeCount"];
-                            let picturenumber = pictureInfos[i]["picturenumber"];
-                            // console.log(imgURL, title, nickname, likeCount, picturenumber)
-                            makePictureCards(imgURL, title, nickname, likeCount, picturenumber);
-                        }
-                    }
-                }
-            })
         }
 
 
@@ -225,51 +152,18 @@
             </div>
         </div>
     </nav>
-    <div>
 
-    </div>
-    <div class="searchBar">
-        <div class="searchBarContent">
-            <div class="category">
-                <button type="button" onclick="showAll()" name="showCategory" id="showAll" class="btn btn-outline-info all" value="all">전체보기
-                </button>
-                <button type="button" onclick="showCharacter()" name="showCategory" id="showChar" class="btn btn-outline-info character"
-                        value="캐릭터 일러스트">캐릭터 일러스트
-                </button>
-                <button type="button" onclick="showBackground()" name="showCategory" id="showBackground" class="btn btn-outline-info background"
-                        value="배경 일러스트">배경 일러스트
-                </button>
-                <button type="button" onclick="showSketch()" name="showCategory" id="showSketch" class="btn btn-outline-info sketch"
-                        value="스케치">스케치
-                </button>
-            </div>
-            <div class="search">
-                <div class="searchCategory">
-                    <select id="searchCategory" class="custom-select">
-                        <option id="searchAll" value="searchAll">전체</option>
-                        <option id="searchTitle" value="searchTitle">제목</option>
-                        <option id="searchNickname" value="searchNickname">닉네임</option>
-                        <option id="searchComment" value="searchComment">작품설명</option>
-                    </select>
-                </div>
-                <input id="searchContent" class="form-control mr-sm-2" type="search" aria-label="Search">
-                <button id="btnSearch" type="button" name='search' class="btn btn-outline-success my-2 my-sm-0"
-                        onclick="searchContent()">검색
-                </button>
-            </div>
-        </div>
-    </div>
+
 
     <div class="middleSectionWrap">
         <div class="middleSection">
-            <i class="fas fa-image fa-2x"></i>
-            <div class="pictureCount" id="pictureCategoryCount">전체보기</div>
+            <i class="fas fa-palette fa-2x"></i>
+            <div class="pictureCount">{{ nickname }} 님의 갤러리</div>
         </div>
     </div>
 
     <div class="pictureCardSectionWrap">
         <div class="pictureCardSection" id="pictureCardSection">
-
         </div>
     </div>
 </div>

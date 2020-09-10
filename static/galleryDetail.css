@@ -92,109 +92,81 @@ wrap {
     background-color: #FC4949;
 }
 
-/* Picture Regist Section */
+/* pictureDetail section */
 
-.pictureRegistSectionWrap {
+.pictureDetailtSectionWrap {
     height: 899px;
     background-color: #f4f4f4;
     padding-top: 10px;
 }
 
-.pictureRegistSection {
+.pictureDetailSection {
     width: 1330px;
     margin: auto;
     display: flex;
 }
 
-/* Picture Regist Left */
 
-.pictureRegistLeft {
+/* pictureDetail left */
+
+.pictureDetailLeft {
     height: 880px;
     width: 880px;
     display: inline-block;
 }
 
-.checkImage > img {
-    height: 830px;
+.showImage > img {
+    height: 880px;
     width: 880px;
 }
 
-.UrlSection {
-    margin-top: 10px;
-    display: flex;
-}
 
-.inputURL {
-    width: 750px;
-}
+/* pictureDetail Right */
 
-.checkURL {
-    width: 130px;
-    padding-left: 8px;
-}
-
-.checkURL > .btn {
-    height: 38px;
-    width: 120px;
-}
-
-
-/* Picture Regist Right */
-.pictureRegistRight {
-    height: 888px;
+.pictureDetailRight {
     width: 550px;
     padding-left: 20px;
+    display: inline-block;
 }
 
-.pictureCategory {
-    display: flex
-}
-
-.pictureCategory > .custom-select {
-    width: 330px;
-    margin-left: 10px;
-    border: 0;
-    border-radius: 5px;
-}
-
-.pictureTitle, .pictureComment, .pictureRegistBtn {
+.pictureDate, .pictureNickname, .pictureTitle, .pictureComment {
     margin-top: 10px;
-}
-
-.pictureTitle > .input-group-prepend > .form-control {
-    width: 330px;
-    border: 0;
-    border-radius: 5px;
 }
 
 .input-group-text {
     background-color: #D0D0D0;
     border: 0;
-    width: 96.14px;
-}
-
-.pictureTitle > .input-group-prepend > .form-control {
-    margin-left: 10px;
+    width: 120px;
 }
 
 .pictureComment > .input-group-text {
     width: 428px;
 }
 
-.pictureComment > textarea {
-    margin-top: 8px;
+
+.form-control {
+    background-color: #f4f4f4 !important;
     border: 0;
-    border-radius: 5px;
+    /* border: 1px solid #D8D8D8; */
+    /* border-radius: 3px; */
+    margin-left: 5px;
+}
+
+.pictureComment > .input-group-text {
+    width: 430px;
+}
+
+.pictureComment > .form-control {
+    margin-top: 8px;
+    border: 1px solid #D8D8D8;
+    border-radius: 3px;
+    margin-left: 0px;
+}
+
+.pictureComment > textarea {
     resize: none;
 }
 
-.pictureRegistBtn > .btn {
-    background-color: #1CAFF4;
-    color: white !important;
-    border-color: #1CAFF4 !important;
-}
-
-.pictureRegistBtn > .btn:hover {
-    color: #ffffff !important;
-    background-color: #0A8BD9;
+.pictureShow, .pictureLike, .pictureFavorite {
+    margin-top: 10px;
 }
