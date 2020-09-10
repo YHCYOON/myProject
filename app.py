@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'userKey'
 
 client = MongoClient('mongodb://yhcyoon:yhc5631@54.180.118.223', 27017)           ### 리눅스서버
-# client = MongoClient('localhost', 27017)                                            ## 로컬
+#client = MongoClient('localhost', 27017)                                            ## 로컬
 
 db = client.illustre  # 'illustre' 라는 이름의 db를 만들거나 사용합니다
 
