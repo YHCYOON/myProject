@@ -38,12 +38,13 @@
         }
 
         /* STRUCTURE */
-        #navLogo{
-            height:80px;
-            width:160px;
+        #navLogo {
+            height: 80px;
+            width: 160px;
             padding-top: 25px;
             margin-left: 20px;
         }
+
         .wrapper {
             display: flex;
             align-items: center;
@@ -54,7 +55,7 @@
             padding: 20px;
         }
 
-        #comment{
+        #comment {
             font-size: 14px;
             margin-bottom: 40px;
         }
@@ -320,36 +321,135 @@
             width: 70%;
             margin: 40px 0 5px 0;
         }
-    <script>
-        // 로고 클릭시 메인페이지
-        function onClickMain() {
-            $(location).attr('href', '/');
+
+        <
+        script >
+
+        /
+        /
+        로고 클릭시 메인페이지
+        function
+
+        onClickMain
+        (
+        )
+        {
+            $(location
+        )
+        .
+        attr
+        (
+        'href'
+        ,
+        '/'
+        )
+        ;
         }
 
-        //로그인 검사
-        function onClickLogin() {
-            let userID = $('#userID').val();
-            let password = $('#userID').val();
+        /
+        /
+        로그인 검사
+        function
 
-            if (userID == "") {
-                alert("아이디를 입력해주세요")
-                $("#userID").focus();
-                return;
-            } else if (password == "") {
-                alert("비밀번호를 입력해주세요")
-                $("#password").focus();
-                return;
-            }
+        onClickLogin
+        (
+        )
+        {
+            let userID = $('#userID'
+        )
+        .
+        val
+        (
+        )
+        ;
+            let password = $('#userID'
+        )
+        .
+        val
+        (
+        )
+        ;
+
+        if
+
+        (
+        userID
+
+        =
+        =
+        ""
+        )
+        {
+        alert
+        (
+        "아이디를 입력해주세요"
+        )
+        $
+        (
+        "#userID"
+        )
+        .
+        focus
+        (
+        )
+        ;
+            return
+        ;
+        }
+        else if
+
+        (
+        password
+
+        =
+        =
+        ""
+        )
+        {
+        alert
+        (
+        "비밀번호를 입력해주세요"
+        )
+        $
+        (
+        "#password"
+        )
+        .
+        focus
+        (
+        )
+        ;
+            return
+        ;
+        }
         }
 
-        // 회원가입 페이지로 이동
-        function onClickSignUp() {
-            $(location).attr('href', '/signup');
+        /
+        /
+        회원가입 페이지로 이동
+        function
+
+        onClickSignUp
+        (
+        )
+        {
+            $(location
+        )
+        .
+        attr
+        (
+        'href'
+        ,
+        '/signup'
+        )
+        ;
         }
 
-    </script>
-    <style>
-        /* BASIC */
+        <
+        /
+        script >
+        < style >
+            /* BASIC */
         body {
             font-family: "Poppins", sans-serif;
             height: 100vh;
@@ -662,6 +762,16 @@
             margin: 40px 0 5px 0;
         }
     </style>
+    <script>
+        // 로고 클릭시 메인페이지
+        function onClickMain() {
+            $(location).attr('href', '/');
+        }
+
+         function onClickSignUp() {
+            $(location).attr('href', '/signUp');
+        }
+    </script>
 </head>
 <body>
 
