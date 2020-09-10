@@ -360,7 +360,7 @@ a:hover .screen::after {
 
         // Nav Bar 랭킹
         function onClickRanking() {
-            $(location).attr('href', '/rank/all');
+            $(location).attr('href', '/rank/전체 랭킹');
         }
 
         // Nav Bar 작품등록
@@ -380,8 +380,8 @@ a:hover .screen::after {
 
 
         function showAll() {
-            $("#rankCategory").text("전체 랭킹");
-            $(location).attr('href', '/rank/전체 랭킹');
+            $("#rankCategory").text("전체랭킹");
+            $(location).attr('href', '/rank/전체랭킹');
         }
 
         function showCharacter() {
@@ -408,7 +408,7 @@ a:hover .screen::after {
             });
         });
 
-        function getPictures(category = '전체 랭킹') {
+        function getPictures(category = '전체랭킹') {
             $('#pictureCardSection').empty();
 
             // 1. 그림데이터를 서버에 요청
@@ -464,7 +464,7 @@ a:hover .screen::after {
         <div class="searchBarContent">
             <div class="category">
                 <button type="button" onclick="showAll()" name="showCategory" id="showAll"
-                        class="btn btn-outline-info all" value="전체 랭킹">전체 랭킹
+                        class="btn btn-outline-info all" value="전체랭킹">전체랭킹
                 </button>
                 <button type="button" onclick="showCharacter()" name="showCategory" id="showChar"
                         class="btn btn-outline-info character"

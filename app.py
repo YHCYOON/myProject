@@ -243,7 +243,7 @@ def Rank_Page(category):
         # 아니라면 로그인 한 세션이 있는 유저이므로 메인 페이지로 보냄
 
         # 카테고리에 따라 likeCount 값을 이용하여 오름차순으로 정렬
-        if category == '전체 랭킹':
+        if category == '전체랭킹':
             picture_rank_content = list(db.pictureInfos.find({}).sort("likeCount", -1))
         else:
             picture_rank_content = list(db.pictureInfos.find({'category': category}).sort("likeCount", -1))
