@@ -378,15 +378,15 @@ a:hover .screen::after {
             $(location).attr('href', '#');
         }
 
+
         function showAll() {
             $("#rankCategory").text("전체 랭킹");
-            $(location).attr('href', '/rank/all');
+            $(location).attr('href', '/rank/전체 랭킹');
         }
 
         function showCharacter() {
             $("#rankCategory").text("캐릭터 일러스트");
             $(location).attr('href', '/rank/캐릭터 일러스트');
-
         }
 
         function showBackground() {
@@ -408,7 +408,7 @@ a:hover .screen::after {
             });
         });
 
-        function getPictures(category = 'all') {
+        function getPictures(category = '전체 랭킹') {
             $('#pictureCardSection').empty();
 
             // 1. 그림데이터를 서버에 요청
@@ -464,7 +464,7 @@ a:hover .screen::after {
         <div class="searchBarContent">
             <div class="category">
                 <button type="button" onclick="showAll()" name="showCategory" id="showAll"
-                        class="btn btn-outline-info all" value="all">전체 랭킹
+                        class="btn btn-outline-info all" value="전체 랭킹">전체 랭킹
                 </button>
                 <button type="button" onclick="showCharacter()" name="showCategory" id="showChar"
                         class="btn btn-outline-info character"
@@ -486,7 +486,7 @@ a:hover .screen::after {
     <div class="middleSectionWrap">
         <div class="middleSection">
             <i class="fas fa-trophy fa-2x"></i>
-            <div class="rankCategory" id="rankCategory"></div>
+            <div class="rankCategory" id="rankCategory"> {{ category }}</div>
         </div>
     </div>
 
