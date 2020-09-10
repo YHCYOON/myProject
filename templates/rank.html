@@ -21,7 +21,324 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <style>
+        * {
+    font-family: 'Nanum Gothic', sans-serif;
+}
 
+wrap {
+    min-width: 1330px;
+}
+
+/* Navbar */
+.navBar {
+    height: 70px;
+    background-color: white;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+}
+
+.navBarContent {
+    height: 70px;
+    width: 1330px;
+    margin: auto;
+    display: flex;
+}
+
+.navBarLogo {
+    height: 70px;
+    width: 162px;
+    padding-top: 18px;
+    display: inline-block;
+}
+
+.navContent {
+    width: 1000px;
+    height: 70px;
+    display: flex;
+    font-size: 18px;
+    padding-top: 12px;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.showPicture, .ranking, .pictureRegist, .myPicture, .favorite {
+    display: inline-block;
+    margin: auto;
+}
+
+.showPicture > a:link, .ranking > a:link, .pictureRegist > a:link, .myPicture > a:link, .favorite > a:link {
+    color: #414141;
+    text-decoration: none;
+}
+
+.showPicture > a:visited, .ranking > a:visited, .pictureRegist > a:visited, .myPicture > a:visited, .favorite > a:visited {
+    color: #414141;
+    text-decoration: none;
+}
+
+.showPicture > a:hover, .ranking > a:hover, .pictureRegist > a:hover, .myPicture > a:hover, .favorite > a:hover {
+    color: #414141;
+    border: rgba(28, 175, 244, 0.8) solid;
+    border-width: 0 0 12px 0;
+
+}
+
+.helloUser {
+    width: 200px;
+    padding: 18px 10px 10px 0;
+    text-align: right;
+    font-size: 14px;
+}
+
+.logOutBtn {
+    padding-top: 23px;
+}
+
+.btn {
+    color: #1CAFF4 !important;
+    border-color: #1CAFF4 !important;
+}
+
+.btn:hover {
+    color: #ffffff !important;
+    background-color: #1CAFF4;
+!important;
+}
+
+/* searchBar */
+
+.searchBar {
+    height: 50px;
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 70px;
+    z-index: 3;
+}
+
+.searchBarContent {
+    height: 50px;
+    width: 1330px;
+    margin: auto;
+    display: flex;
+    background-color: #f4f4f4;
+}
+
+.category {
+    display: inline-block;
+    width: 1330px;
+    padding-top: 5px;
+}
+
+
+/* Middle section */
+
+.middleSectionWrap {
+    height: 60px;
+    background-color: #f4f4f4;
+}
+
+.middleSection {
+    height: 50px;
+    width: 1330px;
+    margin: auto;
+    background-color: #f4f4f4;
+    font-size: 18px;
+    padding: 15px 0 0 10px;
+    display: flex;
+}
+
+.middleSection > i {
+    color: #1CAFF4;
+}
+
+.rankCategory {
+    padding: 2px 0 0 10px;
+}
+
+/* Rank section */
+
+/* TOP */
+.rankSectionWrap {
+    background-color: #f4f4f4;
+}
+
+.rankSectionTop {
+    height: 528px;
+    width: 1330px;
+    margin: auto;
+    background-color: #f4f4f4;
+    display: flex;
+
+}
+
+.rankCard {
+    height: 520px;
+    width: 430px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+.rankImg > img {
+    height: 410px;
+    width: 410px;
+    border-radius: 20px;
+
+}
+
+.ranking {
+    display: flex;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+.ranking > .gold {
+    color: #FFD700;
+}
+
+.ranking > .silver {
+    color: #C0C0C0;
+}
+
+.ranking > .bronze {
+    color: #7C4833;
+}
+
+.rankContentWrap {
+    width: 340px;
+    padding: 0 4px 0 4px;
+}
+
+.rankTitle {
+    height: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 16px;
+}
+
+.rankNicknameLike {
+    display: flex;
+}
+
+.rankNickname {
+    height: 40px;
+    width: 200px;
+    font-size: 14px;
+    padding-top: 4px;
+}
+
+.rankLike {
+    height: 40px;
+    width: 117px;
+    font-weight: 700;
+    text-align: right;
+    padding-top: 10px;
+}
+
+.rankLike > i {
+    color: red;
+
+}
+
+/* BOTTOM */
+
+.rankSectionBottom {
+    margin: 20px auto;
+    width: 1330px;
+
+}
+
+/* pictureCard */
+
+.pictureCard {
+    height: 254px;
+    width: 254px;
+    display: inline-block;
+    margin: 0 4px 12px 4px;
+}
+
+.cardImage {
+    height: 254px;
+    width: 254px;
+}
+
+
+/* 그림 마우스 Hover */
+a:hover .hoveruserNickname {
+    top: 62%;
+}
+
+a:hover .hoverLike {
+    top: 80%;
+}
+
+a:hover .hoverTitle {
+    bottom: 52%;
+}
+
+.screen {
+    height: 254px;
+    width: 254px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 4px 12px 0;
+
+}
+
+.hoverTitle {
+    position: absolute;
+    bottom: 150%;
+    left: 15px;
+    z-index: 2;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    transition: all .60s;
+}
+
+.hoverLike {
+    position: absolute;
+    top: 150%;
+    left: 15px;
+    z-index: 2;
+    color: azure;
+    font-size: 12px;
+    transition: all .60s;
+}
+
+.hoveruserNickname {
+    position: absolute;
+    top: 150%;
+    left: 15px;
+    z-index: 2;
+    color: azure;
+    font-size: 12px;
+    transition: all .60s;
+
+}
+
+.screen::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 256px;
+    height: 256px;
+    background: rgba(0, 0, 0, .6);
+    z-index: 1;
+    opacity: 0;
+    transition: all .35s;
+}
+
+a:hover .screen::after {
+    opacity: 0.9;
+}
+    </style>
 
     <script>
         // 로그아웃해서 세션 버리는 함수

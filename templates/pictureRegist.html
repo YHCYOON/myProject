@@ -21,7 +21,208 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <style>
+        * {
+    font-family: 'Nanum Gothic', sans-serif;
+}
 
+wrap {
+    min-width: 1330px;
+}
+
+/* Navbar */
+.navBar {
+    height: 70px;
+    background-color: white;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+}
+
+.navBarContent {
+    height: 70px;
+    width: 1330px;
+    margin: auto;
+    display: flex;
+}
+
+.navBarLogo {
+    height: 70px;
+    width: 162px;
+    padding-top: 18px;
+    display: inline-block;
+}
+
+.navContent {
+    width: 1000px;
+    height: 70px;
+    display: flex;
+    font-size: 18px;
+    padding-top: 12px;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.showPicture, .ranking, .pictureRegist, .myPicture, .favorite {
+    display: inline-block;
+    margin: auto;
+}
+
+.showPicture > a:link, .ranking > a:link, .pictureRegist > a:link, .myPicture > a:link, .favorite > a:link {
+    color: #414141;
+    text-decoration: none;
+}
+
+.showPicture > a:visited, .ranking > a:visited, .pictureRegist > a:visited, .myPicture > a:visited, .favorite > a:visited {
+    color: #414141;
+    text-decoration: none;
+}
+
+.showPicture > a:hover, .ranking > a:hover, .pictureRegist > a:hover, .myPicture > a:hover, .favorite > a:hover {
+    color: #414141;
+    border: rgba(28, 175, 244, 0.8) solid;
+    border-width: 0 0 12px 0;
+
+}
+
+.helloUser {
+    width: 200px;
+    padding: 18px 10px 10px 0;
+    text-align: right;
+    font-size: 14px;
+}
+
+.logOutBtn {
+    padding-top: 23px;
+}
+
+.btn {
+    color: #1CAFF4 !important;
+    border-color: #1CAFF4 !important;
+}
+
+.btn:hover {
+    color: #ffffff !important;
+    background-color: #1CAFF4;
+}
+
+.pictureLike > .btn {
+    color: #FC4949 !important;
+    border-color: #FC4949 !important;
+}
+
+.pictureLike > .btn:hover {
+    color: #ffffff !important;
+    background-color: #FC4949;
+}
+
+/* Picture Regist Section */
+
+.pictureRegistSectionWrap {
+    height: 899px;
+    background-color: #f4f4f4;
+    padding-top: 10px;
+}
+
+.pictureRegistSection {
+    width: 1330px;
+    margin: auto;
+    display: flex;
+}
+
+/* Picture Regist Left */
+
+.pictureRegistLeft {
+    height: 880px;
+    width: 880px;
+    display: inline-block;
+}
+
+.checkImage > img {
+    height: 830px;
+    width: 880px;
+}
+
+.UrlSection {
+    margin-top: 10px;
+    display: flex;
+}
+
+.inputURL {
+    width: 750px;
+}
+
+.checkURL {
+    width: 130px;
+    padding-left: 8px;
+}
+
+.checkURL > .btn {
+    height: 38px;
+    width: 120px;
+}
+
+
+/* Picture Regist Right */
+.pictureRegistRight {
+    height: 888px;
+    width: 550px;
+    padding-left: 20px;
+}
+
+.pictureCategory {
+    display: flex
+}
+
+.pictureCategory > .custom-select {
+    width: 330px;
+    margin-left: 10px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.pictureTitle, .pictureComment, .pictureRegistBtn {
+    margin-top: 10px;
+}
+
+.pictureTitle > .input-group-prepend > .form-control {
+    width: 330px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.input-group-text {
+    background-color: #D0D0D0;
+    border: 0;
+    width: 96.14px;
+}
+
+.pictureTitle > .input-group-prepend > .form-control {
+    margin-left: 10px;
+}
+
+.pictureComment > .input-group-text {
+    width: 428px;
+}
+
+.pictureComment > textarea {
+    margin-top: 8px;
+    border: 0;
+    border-radius: 5px;
+    resize: none;
+}
+
+.pictureRegistBtn > .btn {
+    background-color: #1CAFF4;
+    color: white !important;
+    border-color: #1CAFF4 !important;
+}
+
+.pictureRegistBtn > .btn:hover {
+    color: #ffffff !important;
+    background-color: #0A8BD9;
+}
+    </style>
 
     <script>
 
